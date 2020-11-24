@@ -32,7 +32,7 @@ public class CountDown : MonoBehaviour
                 flag = true;
             }
             if (p.key == true && p.door == true) {
-                textBox.text = "Nivel prototipo terminado";
+                textBox.text = "Nivel 1 acabado";
             }
         }
     }

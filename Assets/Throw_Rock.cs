@@ -13,13 +13,16 @@ public class Throw_Rock : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         timeBtwShots = startTimeBtwShots;
+  
+        
     }
 
     void Update()
     {
-
         if (timeBtwShots <= 0)
         {
+            
+            
             Instantiate(projectile, transform.position, Quaternion.identity);
             timeBtwShots = startTimeBtwShots;
         }
@@ -27,5 +30,6 @@ public class Throw_Rock : MonoBehaviour
         {
             timeBtwShots -= Time.deltaTime;
         }
+        
     }
 }

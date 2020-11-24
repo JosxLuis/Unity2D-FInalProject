@@ -10,10 +10,17 @@ public class Enemy : MonoBehaviour
 
     private int actualPosition = 0;
     private int nextPosition = 1;
+    public Animator a;
 
+    public AudioClip[] clips;
+    private AudioSource audioSource;
     // Update is called once per frame
     void Update()
     {
+        audioSource = GetComponent<AudioSource>();
+        a = GetComponent<Animator>();
+        a.SetTrigger("walk");
+
         MovePlatform();
     }
     void MovePlatform()
@@ -25,6 +32,7 @@ public class Enemy : MonoBehaviour
             nextPosition++;
             if (nextPosition > platformPositions.Length - 1)
             {
+
                 nextPosition = 0;
             }
         }
@@ -34,7 +42,11 @@ public class Enemy : MonoBehaviour
     {
         if (collision.name.Equals("Bullet_Player(Clone)"))
         {
-            Destroy(gameObject);
+            audioSource.clip = clips[0];//muerte
+            audioSource.Play();
+            a.SetTrigger("dying");
+
+            Destroy(gameObject,1);
         }
     }
 }

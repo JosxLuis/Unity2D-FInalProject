@@ -17,10 +17,17 @@ public class Player : MonoBehaviour
     public Boolean key;
     public Text done;
     public Boolean door;
+    public AudioClip[] clips;
+    private AudioSource audioSource;
+    public Animator a;
+
 
     private Camera cam;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        a = GetComponent<Animator>();
+
         cam = Camera.main;
     }
 
@@ -34,7 +41,8 @@ public class Player : MonoBehaviour
              v * speed * Time.deltaTime,
              0,
              Space.World);
-    
+        a.SetFloat("move", h);
+
         Vector3 mouse = Input.mousePosition;//pos
         //Angulo 
         Vector3 playerPos = Camera.main.WorldToScreenPoint(transform.localPosition);
@@ -46,6 +54,9 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(bullet,firepoint.position,transform.rotation);
+            audioSource.clip = clips[1];
+            audioSource.Play();
+            a.SetTrigger("attack");
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,11 +64,23 @@ public class Player : MonoBehaviour
         if (collision.name.Equals("Key_0(Clone)")) {
             key = true;
             Destroy(collision.gameObject);
+            audioSource.clip = clips[0];
+            audioSource.Play();
+        }
+        if (collision.name.Equals("Rock_1(Clone)") || collision.name.Equals("Spells Effect(Clone)") || collision.name.Equals("Spells-Effect(Clone)"))
+        {
+            //Poner el de golpe a jugador no olvidar
+            a.SetTrigger("hurt");
+
         }
 
         if (collision.name.Equals("Door0_10") && key == true)
         {
             door = true;
+        }
+        if (collision.name.Equals("Rock_1(Clone)") || collision.name.Equals("Spells Effect(Clone)") || collision.name.Equals("Spells-Effect(Clone)")) {
+            audioSource.clip = clips[2];
+            audioSource.Play();
         }
     }
    
